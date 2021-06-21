@@ -146,78 +146,79 @@ def open_file():
     returnString = "return TexturedModelData.of(modelData,"+ str(textureSize)+","+str(textureSize)+");\n"
     fileLineEdit.insert(lineIndex+childTicker, returnString)
 
-    # try:
-    for checkForChilds in fileLineEdit:
-        if ".addChild(" in checkForChilds:
-            if not "modelPartData" in checkForChilds:
-                childSplit = checkForChilds.split(".")
-                
-                # result = modelpart name
-                result = re.search(r"\(([A-Za-z0-9_]+)\)", childSplit[2-lineAdder])
-                result = result[0]
-                result = result[:-1]
-                result = result[1:]
-
-                # Root change
-                splitterString = "this."+ result+' = root.getChild("'+result+'");\n'
-
-                if lineAdder == 1:
-                    childSplit[1-lineAdder] = childSplit[1-lineAdder].replace(" ", "")
-                    childSplit[1-lineAdder] = childSplit[1-lineAdder].replace("\t", "")
-
-                splitterGetterString = "this."+ childSplit[1-lineAdder]+' = root.getChild("'+childSplit[1-lineAdder]+'");\n'
-
-                # Erase root line
-                fileLineEdit[fileLineEdit.index(splitterString)] = ""
-                
-                # Check for "this." string
-                if  splitterGetterString not in fileLineEdit:
-                    for extraChild in fileLineEdit:
-                        extraChildString = "this."+childSplit[1-lineAdder]
-                        if extraChildString in extraChild:
-                            splitterGetterString = extraChild
-                            break
-                        
-                fileLineEdit.insert(fileLineEdit.index(splitterGetterString)+1,"this."+ result +' = this.'+childSplit[1-lineAdder]+'.getChild("'+result+'");\n')
-                
-                # Erase .addChild line which still existed
-                fileLineEdit[fileLineEdit.index(checkForChilds)] = ""
-                
-                
-                # result is everything which adds childs
-                # childSplit[1-lineAdder] is the father
-                
-                # Cuboid change
-                
-                for childHood in fileLineEdit:
-                    notChild = 'modelPartData'
-                    notOtherChild = '.addChild("'+str(childSplit[1-lineAdder])+'"'
-
-                    if notChild in childHood:
-                        if notOtherChild in childHood:
-                            hooder = "= "+str(notChild)
-                            if not hooder in childHood:
-                                childFromChildTicker+=1
-                                # Set father number
-                                hoodSplitter =  "ModelPartData modelPartData"+str(childFromChildTicker)+" = "+childHood
-                                fileLineEdit[fileLineEdit.index(childHood)] = hoodSplitter 
-
-                            # Set right modelPart father number
-                            for lastButNotLeast in fileLineEdit:
-                                resultChecker = 'modelPartData'
-                                resultOtherChecker = '.addChild("'+str(result)+'"'
-                                if resultChecker in lastButNotLeast:
-                                    if resultOtherChecker in lastButNotLeast:
-                                        
-                                        # Set for sure right father number
-                                        for searchFather in fileLineEdit:
-                                            fatherString = '.addChild("'+str(childSplit[1-lineAdder])+'"'
-                                            if fatherString in searchFather:
-                                                childOfChildOfChildNumber = int(re.search(r'\d+', searchFather).group())
-
-                                        endLastButNotLeast = lastButNotLeast.replace("modelPartData.","modelPartData"+str(childOfChildOfChildNumber)+".")
-                                        fileLineEdit[fileLineEdit.index(lastButNotLeast)] = endLastButNotLeast
-
+    try:
+        for checkForChilds in fileLineEdit:
+            if ".addChild(" in checkForChilds:
+                if not "modelPartData" in checkForChilds:
+                    childSplit = checkForChilds.split(".")
+                    
+                    # result = modelpart name
+                    result = re.search(r"\(([A-Za-z0-9_]+)\)", childSplit[2-lineAdder])
+                    result = result[0]
+                    result = result[:-1]
+                    result = result[1:]
+    
+                    # Root change
+                    splitterString = "this."+ result+' = root.getChild("'+result+'");\n'
+    
+                    if lineAdder == 1:
+                        childSplit[1-lineAdder] = childSplit[1-lineAdder].replace(" ", "")
+                        childSplit[1-lineAdder] = childSplit[1-lineAdder].replace("\t", "")
+    
+                    splitterGetterString = "this."+ childSplit[1-lineAdder]+' = root.getChild("'+childSplit[1-lineAdder]+'");\n'
+    
+                    # Erase root line
+                    fileLineEdit[fileLineEdit.index(splitterString)] = ""
+                    
+                    # Check for "this." string
+                    if  splitterGetterString not in fileLineEdit:
+                        for extraChild in fileLineEdit:
+                            extraChildString = "this."+childSplit[1-lineAdder]
+                            if extraChildString in extraChild:
+                                splitterGetterString = extraChild
+                                break
+                            
+                    fileLineEdit.insert(fileLineEdit.index(splitterGetterString)+1,"this."+ result +' = this.'+childSplit[1-lineAdder]+'.getChild("'+result+'");\n')
+                    
+                    # Erase .addChild line which still existed
+                    fileLineEdit[fileLineEdit.index(checkForChilds)] = ""
+                    
+                    
+                    # result is everything which adds childs
+                    # childSplit[1-lineAdder] is the father
+                    
+                    # Cuboid change
+                    
+                    for childHood in fileLineEdit:
+                        notChild = 'modelPartData'
+                        notOtherChild = '.addChild("'+str(childSplit[1-lineAdder])+'"'
+    
+                        if notChild in childHood:
+                            if notOtherChild in childHood:
+                                hooder = "= "+str(notChild)
+                                if not hooder in childHood:
+                                    childFromChildTicker+=1
+                                    # Set father number
+                                    hoodSplitter =  "ModelPartData modelPartData"+str(childFromChildTicker)+" = "+childHood
+                                    fileLineEdit[fileLineEdit.index(childHood)] = hoodSplitter 
+    
+                                # Set right modelPart father number
+                                for lastButNotLeast in fileLineEdit:
+                                    resultChecker = 'modelPartData'
+                                    resultOtherChecker = '.addChild("'+str(result)+'"'
+                                    if resultChecker in lastButNotLeast:
+                                        if resultOtherChecker in lastButNotLeast:
+                                            
+                                            # Set for sure right father number
+                                            for searchFather in fileLineEdit:
+                                                fatherString = '.addChild("'+str(childSplit[1-lineAdder])+'"'
+                                                if fatherString in searchFather:
+                                                    childOfChildOfChildNumber = int(re.search(r'\d+', searchFather).group())
+    
+                                            endLastButNotLeast = lastButNotLeast.replace("modelPartData.","modelPartData"+str(childOfChildOfChildNumber)+".")
+                                            fileLineEdit[fileLineEdit.index(lastButNotLeast)] = endLastButNotLeast
+    except:
+        print("Something went wrong")
                                 
                                 
     # Filter empty elements
