@@ -121,8 +121,19 @@ def open_file():
                                     cuboid_string = cuboid_string.replace(", 0.0F, false);\n",").uv")
                                 elif ", 0.0F);\n" in cuboid_string:
                                     cuboid_string = cuboid_string.replace(", 0.0F);\n",").uv")
+                                elif ", 0.0F, true);\n" in cuboid_string:
+                                    cuboid_string = cuboid_string.replace(", 0.0F, true);\n",", true).uv")
+                                elif ", false);\n" in cuboid_string:
+                                    dilation = re.findall(r"[-+]?\d*\.\d+|\d+", cuboid_string)
+                                    cuboid_string = cuboid_string.replace(", "+str(dilation[6])+"F, false);\n",", new Dilation("+str(dilation[6])+"F)).uv")
                                 else:
                                     cuboid_string = cuboid_string.replace(");\n",").uv")
+                                    if "true" in cuboid_string:
+                                        error_string = last_line_cuboid.replace("\t","")
+                                        print("Dilation and mirroring on one cube is not allowed here:\n"+str(error_string))
+                                        tk.messagebox.showerror(title=None, message="Error: Dilation and mirroring on one cube is not allowed here:\n"+str(error_string))
+                                        root.destroy()
+                                        return
                     
                                 new_string = new_string+"("+str(uvList[0])+","+str(uvList[1])+")."+cuboid_string
                                 file_line_edit[file_line_edit.index(last_line_cuboid)] = ""
