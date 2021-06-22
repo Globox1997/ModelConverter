@@ -9,6 +9,7 @@ Class has to have constructor with empty ()
 
 # All library stuff
 import tkinter as tk
+from tkinter import messagebox as mb
 from tkinter.filedialog import askopenfilename
 import re
 import os
@@ -63,7 +64,7 @@ def open_file():
             break
     else:
         print("Couldn't find main method")
-        tk.messagebox.showerror(title=None, message="Error: Main method not found!\nFile name has to be the same as the class name!\nOnly one constructor is allowed!\nConstructor has to have empty brackets!\n")
+        mb.showerror(title=None, message="Error: Main method not found!\nFile name has to be the same as the class name!\nOnly one constructor is allowed!\nConstructor has to have empty brackets!\n")
         root.destroy()
         return
     # check for ModelParts and add them to new model method
@@ -131,7 +132,7 @@ def open_file():
                                     if "true" in cuboid_string:
                                         error_string = last_line_cuboid.replace("\t","")
                                         print("Dilation and mirroring on one cube is not allowed here:\n"+str(error_string))
-                                        tk.messagebox.showerror(title=None, message="Error: Dilation and mirroring on one cube is not allowed here:\n"+str(error_string))
+                                        mb.showerror(title=None, message="Error: Dilation and mirroring on one cube is not allowed here:\n"+str(error_string))
                                         root.destroy()
                                         return
                     
