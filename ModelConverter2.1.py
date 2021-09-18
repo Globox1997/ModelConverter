@@ -129,11 +129,10 @@ def open_file():
                             if cuboid_search_string in last_line_cuboid:
                                 new_cuboid_line = last_line_cuboid.split(".",3-line_adder)
                                 uvList = re.findall(r'\d+', new_cuboid_line[2-line_adder])
-                                
                                 # replace "addCuboid" if existing
                                 cuboid_string = new_cuboid_line[3-line_adder].replace("addCuboid", "cuboid")
                                 # replace "addBox" if existing
-                                cuboid_string = new_cuboid_line[3-line_adder].replace("addBox", "cuboid")
+                                cuboid_string = cuboid_string.replace("addBox", "cuboid")
                                 
                                 
                                 # this.body2.setTextureOffset(200,185).addBox(-14.5F, -14.5F, 0.0F, 29.0F, 29.0F, 37.0F, 0.0F, 0.0F, 0.0F);
@@ -173,7 +172,7 @@ def open_file():
                                 
                                 new_string = new_string+"("+str(uvList[0])+","+str(uvList[1])+")."+cuboid_string
                                 file_line_edit[file_line_edit.index(last_line_cuboid)] = ""
-                        
+
                         pivot_string = " ModelTransform.pivot("+str(pivot[0])+"F,"+str(pivot[1])+"F,"+str(pivot[2])+"F));\n"
                         new_string = new_string + pivot_string
                         # remove .uv at the end of the line
