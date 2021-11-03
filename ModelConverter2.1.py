@@ -62,7 +62,7 @@ def open_file():
     for line in file_line_edit:
         if java_file_name in line:
             line_index = index = file_line_edit.index(line)
-            file_line_edit[index] = file_line_edit[index].replace("Model()", "Model(ModelPart root)")
+            file_line_edit[index] = file_line_edit[index].replace("()", "(ModelPart root)")
             file_line_edit.insert(index+1, "}\n")
             file_line_edit.insert(index+2, "public static TexturedModelData getTexturedModelData() {\n")
             file_line_edit.insert(index+3, "ModelData modelData = new ModelData();\n")
