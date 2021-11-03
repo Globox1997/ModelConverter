@@ -102,7 +102,7 @@ def open_file():
     # edit all pivot part lines
     for pivot_line in file_line_edit:
         pivot = []
-        if ".setPivot" in pivot_line or ".setRotationPoint" in pivot_line:
+        if ".setPivot" in pivot_line or ".setRotationPoint" in pivot_line or ".setPos" in pivot_line:
             # line_adder set for this. lines
             line_adder = 1
             if "this." in pivot_line:
